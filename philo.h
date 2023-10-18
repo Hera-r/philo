@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/10/18 23:19:50 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/10/19 00:11:38 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include "ft_printf/ft_printf.h"
-# include "my_libft/libft.h"
+
 
 #endif

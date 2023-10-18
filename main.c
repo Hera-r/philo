@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/10/18 23:26:15 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/10/19 00:13:10 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	(void)argc;
 	(void)argv;
 
-	ft_printf("welcome philo\n");
+	printf("Welcome philo\n");
 
 	return 0;
 }
