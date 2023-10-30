@@ -12,7 +12,7 @@ typedef struct s_philo
 	int				id;
 	int				eat_cont;
 	int				status;
-	long int		eating;
+	long int		time_eating;
 	long int		time_to_die;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	*r_fork;
@@ -137,8 +137,10 @@ int	init_argv(t_data *data, int argc, char *argv[])
 	data->death_time = xatoi(argv[2]);
 	data->eat_time = xatoi(argv[3]);
 	data->sleep_time = xatoi(argv[4]);
-	if (data->nb_philo <= 1 || data->death_time < 0 || 
-		data->eat_time < 0 || data->sleep_time || data->meals_nb < 0)
+	if (data->nb_philo <= 1)
+		return (1);
+	if (data->death_time < 0 && data->eat_time < 0 && 
+		data->sleep_time && data->meals_nb < 0)
 		return (1);
 	return (0);
 }
@@ -151,8 +153,8 @@ int	xparsing(t_data *data, int argc, char *argv[])
 		return (1);
 	}
 	if (init_argv(data, argc, argv) == 1)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 t_philo	*init_xphilo(t_data *data)
@@ -172,7 +174,7 @@ t_philo	*init_xphilo(t_data *data)
 		philo[i].l_fork = &data->forks[philo[i].id];
 		tmp = (philo[i].id + 1) % data->nb_philo;
 		philo[i].r_fork = &data->forks[tmp];
-		philo[i].eating = data->eat_time;
+		philo[i].time_eating = data->eat_time;
 		philo[i].data = data;
 		i++;
 	}
@@ -184,6 +186,10 @@ int	init_mutex(t_data *data)
 	int	i;
 
 	i = 0;
+	if (pthread_mutex_init(&data->lock, NULL) != 0)
+		return (perror("pthread_mutex_init"), 1);
+	if (pthread_mutex_init(&data->write, NULL) != 0)
+		return (perror("pthread_mutex_init"), 1);
 	data->forks = malloc(data->nb_philo * sizeof(pthread_mutex_t));
 	if(!data->forks)
 		return (0);
@@ -195,6 +201,30 @@ int	init_mutex(t_data *data)
 	}
 	return (0);
 }
+
+
+int	print_event(char *str, t_philo *philo)
+{
+	long int	xtime;
+
+	if (pthread_mutex_lock(&philo->data->lock) != 0)
+		return (printf("pthread_mutex_lock"), 1);
+	xtime = current_time() - philo->data->start_time;
+	printf("%ld %d %s\n", xtime, philo->id + 1, str);
+	if (pthread_mutex_unlock(&philo->data->lock) != 0)
+		return (printf("Error pthread_mutex_unlock\n"), 1);
+	return (0);
+}
+
+int	everyone_ate(t_philo *philo)
+{
+	if (philo->eat_cont == philo->data->meals_nb)
+		philo->data->finished += philo->data->meals_nb;
+	if (philo->data->finished == (philo->data->meals_nb * philo->data->meals_nb))
+		return (1);
+	return (0);
+}
+
 
 int	take_forks(t_philo *philo)
 {
@@ -216,12 +246,19 @@ int	take_forks(t_philo *philo)
 
 void	xeating(t_philo *philo)
 {
-	long int	xtime;
-
-	xtime = current_time() - philo->data->start_time;
-	printf("%ld %d is eating\n", xtime, philo->id + 1);
-	ft_usleep(philo->eating);
+	
+	print_event("is eating", philo);
+	if (philo->data->meals_nb != 0)
+	{
+		if (pthread_mutex_lock(&philo->data->write) != 0)
+			return (printf("pthread_mutex_lock"), 1);
+			philo->eat_cont++;
+		if (pthread_mutex_unlock(&philo->data->write) != 0)
+			return (printf("Error pthread_mutex_unlock\n"), 1);
+	}
+	ft_usleep(philo->time_eating);
 }
+
 
 int	sleeping(t_philo *philo)
 {
@@ -231,20 +268,11 @@ int	sleeping(t_philo *philo)
 		return (printf("Error pthread_mutex_unlock\n"), 1);
 	if (pthread_mutex_unlock(philo->r_fork) != 0)
 		return (printf("Error pthread_mutex_unlock\n"), 1);
-	xtime = current_time() - philo->data->start_time;
-	printf("%ld %d is sleeping\n", xtime, philo->id + 1);
-	ft_usleep(philo->eating);
+	print_event("is sleeping", philo);
+	ft_usleep(philo->data->sleep_time);
 	return (0);
 }
 
-void	thinking(t_philo *philo)
-{
-	long int	xtime;
-
-	xtime = current_time() - philo->data->start_time;
-	printf("%ld %d is thinking\n", xtime, philo->id + 1);
-	ft_usleep(philo->eating);
-}
 
 
 void	*xroutine(void *arg)
@@ -257,7 +285,7 @@ void	*xroutine(void *arg)
 		take_forks(philo);
 		xeating(philo);
 		sleeping(philo);
-		thinking(philo);
+		print_event("is thinking", philo);
 	}
 }
 
@@ -273,8 +301,10 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	if (xparsing(&data, argc, argv) == 1)
+	{
+		printf("Error argv\n");
 		return (0);
-
+	}
 	if (init_mutex(&data) == 1)
 		return (0);
 	philo = init_xphilo(&data);

@@ -1,7 +1,7 @@
 CC=cc
 CFLAGS=-Wall -Wextra -Werror
 NAME=philo
-SRC_FILES=main.c
+SRC_FILES=main.c libft_tmp.c parsing.c all_init.c xdisplay.c actions.c
 OBJ_FILES=$(SRC_FILES:.c=.o)
 
 all: $(NAME)
