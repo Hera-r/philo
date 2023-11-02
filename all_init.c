@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:48:53 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/02 19:37:07 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:10:11 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	init_argv(t_data *data, int argc, char *argv[])
 	else
 		data->meals_nb = 0;
 	data->nb_philo = xatoi(argv[1]);
-	data->death_time = xatoi(argv[2]);
-	data->eat_time = xatoi(argv[3]);
-	data->sleep_time = xatoi(argv[4]);
+	data->death_time = (long int) xatoi(argv[2]);
+	data->eat_time = (long int) xatoi(argv[3]);
+	data->sleep_time = (long int) xatoi(argv[4]);
 	if (data->nb_philo < 0)
 		return (1);
-	if (data->death_time < 0 && data->eat_time < 0 && 
-		data->sleep_time && data->meals_nb < 0)
+	if (data->death_time < 0 || data->eat_time < 0 || \
+		data->sleep_time < 0 || data->meals_nb < 0)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/02 19:36:50 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/02 20:08:47 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char *argv[])
 	philo = init_xphilo(&data);
 	i = 0;
 	data.finished = 0;
+	data.end = 0;
 	data.start_time = current_time();
 	while (i < data.nb_philo)
 	{
