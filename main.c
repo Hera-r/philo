@@ -6,25 +6,57 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/10/20 16:26:07 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/02 00:48:58 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
+int check_liveness(t_philo *philo)
+{
+    long int current;
+
+	current = current_time() - philo->time_eating;
+    if (current > philo->time_to_die)
+    {
+        philo->data->dead = 1;
+        print_event("died", philo);
+        return 1; 
+    }
+    return 0;
+}
+
 void	*xroutine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (42)
+	philo->data->end = 1;
+	while (philo->data->end)
 	{
-		take_forks(philo);
-		xeating(philo);
-		sleeping(philo);
-		print_event("is thinking", philo);
+		if (take_forks(philo) == 1)
+		{
+			break;
+			return (0);
+		}
+		if (xeating(philo) == 1)
+		{
+			break;
+			return (0);
+		}
+		if (sleeping(philo) == 1)
+		{
+			break;
+			return (0);
+		}
+		if (print_event("is thinking", philo) == 1)
+		{
+			break;
+			return (0);
+		}
 	}
+	return (0);
 }
 
 int	main(int argc, char *argv[])

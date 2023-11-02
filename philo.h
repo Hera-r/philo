@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/10/19 00:11:38 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/01 22:45:06 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	int				meals_nb;
 	int				dead;
 	int				finished;
+	int				end;
 	long int		death_time;
 	long int		eat_time;
 	long int		sleep_time;
@@ -53,6 +54,8 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	write;
+	pthread_mutex_t	must_eat;
+	pthread_mutex_t	end_lock;
 }					t_data;
 
 void		*xroutine(void *arg);

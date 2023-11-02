@@ -48,6 +48,10 @@ int	init_mutex(t_data *data)
 	int	i;
 
 	i = 0;
+	if (pthread_mutex_init(&data->end_lock, NULL) != 0)
+		return (perror("pthread_mutex_init"), 1);
+	if (pthread_mutex_init(&data->must_eat, NULL) != 0)
+		return (perror("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->lock, NULL) != 0)
 		return (perror("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->write, NULL) != 0)

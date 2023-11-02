@@ -334,11 +334,25 @@ int	main(int argc, char *argv[])
 
 
 
+// #########################################################
+
+	// Nettoyage des ressources (mutex)
+	// i = 0;
+	// while (i < data.nb_philo)
+	// {
+	// 	pthread_mutex_destroy(&philo[i].l_fork);
+	// 	pthread_mutex_destroy(&philo[i].r_fork);
+	// 	i++;
+	// }
+	// pthread_mutex_destroy(&data.end_lock);
+	// pthread_mutex_destroy(&data.must_eat);
+	// pthread_mutex_destroy(&data.lock);
+	// pthread_mutex_destroy(&data.write);
+	// free(data.forks);
+	// free(philo);
 
 
-
-
-
+// #########################################################
 
 
 // pthread_mutex_t *forks;
