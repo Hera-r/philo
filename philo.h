@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/01 22:45:06 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/02 19:36:34 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ typedef struct s_philo
 	int				status;
 	long int		time_eating;
 	long int		time_to_die;
+	long int		last_meal;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	status_lock;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 }					t_philo;
@@ -56,9 +58,11 @@ typedef struct s_data
 	pthread_mutex_t	write;
 	pthread_mutex_t	must_eat;
 	pthread_mutex_t	end_lock;
+	pthread_mutex_t	must_die;
 }					t_data;
 
 void		*xroutine(void *arg);
+void		*xmonitoring(void *arg);
 int			xeating(t_philo *philo);
 int			print_event(char *str, t_philo *philo);
 int			xatoi(const char *nptr);
@@ -71,6 +75,8 @@ int			take_forks(t_philo *philo);
 int			init_mutex(t_data *data);
 int			sleeping(t_philo *philo);
 int			ft_usleep(long int time);
+int			check_liveness(t_philo *philo);
+int			xstrcmp(char *s1, char *s2);
 long int	current_time(void);
 
 t_philo		*init_xphilo(t_data *data);

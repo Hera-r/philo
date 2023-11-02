@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft_tmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/02 12:49:19 by hrandria          #+#    #+#             */
+/*   Updated: 2023/11/02 19:36:59 by hrandria         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -41,21 +51,12 @@ int	xatoi(const char *nptr)
 	return (n * sign);
 }
 
-long int	current_time(void)
+int	xstrcmp(char *s1, char *s2)
 {
-	struct timeval	tv;
+	int	i;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		return (printf("ERR_TIME\n"), 1);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-int	ft_usleep(long int time)
-{
-	long int	start;
-
-	start = current_time();
-	while ((current_time() - start) < time)
-		usleep(time / 10);
-	return(0);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }
