@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mle-bras <mle-bras@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/02 19:36:34 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/05 23:22:32 by mle-bras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ typedef struct s_data
 	pthread_mutex_t	must_eat;
 	pthread_mutex_t	end_lock;
 	pthread_mutex_t	must_die;
+	pthread_mutex_t	secure;
+	pthread_mutex_t last_meal_lock;
+
 }					t_data;
 
 void		*xroutine(void *arg);
@@ -70,7 +73,6 @@ int			isdigit(int c);
 int			all_digit(char *argv[]);
 int			xparsing(t_data *data, int argc, char *argv[]);
 int			init_argv(t_data *data, int argc, char *argv[]);
-int			everyone_ate(t_philo *philo);
 int			take_forks(t_philo *philo);
 int			init_mutex(t_data *data);
 int			sleeping(t_philo *philo);
@@ -78,6 +80,8 @@ int			ft_usleep(long int time);
 int			check_liveness(t_philo *philo);
 int			xstrcmp(char *s1, char *s2);
 long int	current_time(void);
+
+void		*everyone_ate(void *philo);
 
 t_philo		*init_xphilo(t_data *data);
 

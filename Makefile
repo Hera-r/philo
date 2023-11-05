@@ -1,5 +1,5 @@
-CC=cc
-CFLAGS=-Wall -Wextra -Werror -pthread
+CC= gcc-11
+CFLAGS=-Wall -Wextra -Werror -fsanitize=thread -g3
 NAME=philo
 SRC_FILES=main.c libft_tmp.c parsing.c all_init.c xdisplay.c actions.c monitoring.c
 OBJ_FILES=$(SRC_FILES:.c=.o)
@@ -7,7 +7,7 @@ OBJ_FILES=$(SRC_FILES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) -lpthread
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

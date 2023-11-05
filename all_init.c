@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mle-bras <mle-bras@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:48:53 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/02 20:10:11 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/05 23:45:03 by mle-bras         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_philo	*init_xphilo(t_data *data)
 		philo[i].r_fork = &data->forks[tmp];
 		philo[i].time_eating = data->eat_time;
 		philo[i].time_to_die = data->death_time;
+		philo[i].eat_cont = 0;
 		pthread_mutex_init(&philo[i].lock, NULL);
 		pthread_mutex_init(&philo[i].status_lock, NULL);
 		philo[i].data = data;
@@ -59,16 +60,20 @@ t_philo	*init_xphilo(t_data *data)
 
 int	pre_init(t_data *data)
 {
+	if (pthread_mutex_init(&data->secure, NULL) != 0)
+		return (printf("pthread_mutex_init"), 1);
+	if (pthread_mutex_init(&data->last_meal_lock, NULL) != 0)
+		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->must_die, NULL) != 0)
-		return (perror("pthread_mutex_init"), 1);
+		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->end_lock, NULL) != 0)
-		return (perror("pthread_mutex_init"), 1);
+		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->must_eat, NULL) != 0)
-		return (perror("pthread_mutex_init"), 1);
+		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->lock, NULL) != 0)
-		return (perror("pthread_mutex_init"), 1);
+		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->write, NULL) != 0)
-		return (perror("pthread_mutex_init"), 1);
+		return (printf("pthread_mutex_init"), 1);
 	return (0);
 }
 
@@ -84,7 +89,7 @@ int	init_mutex(t_data *data)
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-			return (perror("pthread_mutex_init"), 1);
+			return (printf("pthread_mutex_init"), 1);
 		i++;
 	}
 	return (0);
