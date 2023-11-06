@@ -33,9 +33,7 @@ void	*xroutine(void *arg)
 
 	philo = (t_philo *)arg;
 	// pthread_create(&check_who_die, NULL, xmonitoring, philo);
-	// if (philo->id % 2 == 0)
-	// 	ft_usleep(philo->time_eating);
-	while (!philo->data->end)
+	while (philo->data->end == 0)
 	{
 		// ft_usleep(philo->time_eating *0.7);
 		if (take_forks(philo) == 1)
@@ -91,8 +89,8 @@ int	main(int argc, char *argv[])
 	{
 		pthread_create(&philo[i].thread, NULL, xroutine, &philo[i]);
 	}
-	if (philo->data->meals_nb != 0)
-		pthread_create(&check_who_eat, NULL, everyone_ate, &philo[0]);
+	// if (philo->data->meals_nb != 0)
+	pthread_create(&check_who_eat, NULL, everyone_ate, &philo[0]);
 	i = -1;
 	while (++i < data.nb_philo)
 	{

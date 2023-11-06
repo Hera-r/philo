@@ -51,7 +51,7 @@ t_philo	*init_xphilo(t_data *data)
 		philo[i].time_to_die = data->death_time;
 		philo[i].eat_cont = 0;
 		pthread_mutex_init(&philo[i].lock, NULL);
-		pthread_mutex_init(&philo[i].status_lock, NULL);
+		pthread_mutex_init(&philo[i].last_meal_mu, NULL);
 		philo[i].data = data;
 		i++;
 	}

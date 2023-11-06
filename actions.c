@@ -19,15 +19,29 @@ void	*everyone_ate(void *arg)
 	philo = (t_philo *)arg;	
 	while (philo->data->end == 0)
 	{
-		pthread_mutex_lock(&philo->data->last_meal_lock);
-		if (philo->data->finished == philo->data->nb_philo)
+		if (philo->data->meals_nb != 0)
 		{
+			pthread_mutex_lock(&philo->data->last_meal_lock);
+			if (philo->data->finished == philo->data->nb_philo)
+			{
+				pthread_mutex_lock(&philo->data->end_lock);
+				philo->data->end = 1;
+				pthread_mutex_unlock(&philo->data->end_lock);
+				return (0);
+			}
+			pthread_mutex_unlock(&philo->data->last_meal_lock);
+		}
+		pthread_mutex_lock(&philo->last_meal_mu);
+		if (current_time() >= philo->last_meal)
+		{
+			print_event("died", philo);
 			pthread_mutex_lock(&philo->data->end_lock);
 			philo->data->end = 1;
 			pthread_mutex_unlock(&philo->data->end_lock);
+			pthread_mutex_unlock(&philo->last_meal_mu);
 			return (0);
 		}
-		pthread_mutex_unlock(&philo->data->last_meal_lock);
+		pthread_mutex_unlock(&philo->last_meal_mu);
 	}
 	return (0);
 }
@@ -51,22 +65,19 @@ int	take_forks(t_philo *philo)
 	return (0);
 }
 
-// void lock_status_last_meals(t_philo *philo)
-// {
-// 	pthread_mutex_lock(&philo->status_lock);
-// 	pthread_mutex_lock(&philo->data->last_meal_lock);
+void lock_status_last_meals(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->last_meal_mu);
 
-// 	philo->last_meal = current_time() + philo->time_to_die;
-// 	philo->status = 0;
+	philo->last_meal = current_time() + philo->time_to_die;
 
-// 	pthread_mutex_unlock(&philo->data->last_meal_lock);
-// 	pthread_mutex_unlock(&philo->status_lock);
-// }
+	pthread_mutex_unlock(&philo->last_meal_mu);
+}
 
 
 int	xeating(t_philo *philo)
 {
-	// lock_status_last_meals(philo);
+	lock_status_last_meals(philo);
 	print_event("is eating", philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eat_cont++;
@@ -78,9 +89,6 @@ int	xeating(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->lock);
 	ft_usleep(philo->time_eating);
-	// pthread_mutex_lock(&philo->status_lock);
-	// philo->status = 1;
-	// pthread_mutex_unlock(&philo->status_lock);
 	return (0);
 }
 

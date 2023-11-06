@@ -17,16 +17,18 @@ void	*xmonitoring(void *arg)
 	t_philo		*philo;
 
 	philo = (t_philo *)arg;
-	while (!philo->data->end)
+	while (philo->data->end == 0)
 	{
-		if (philo->status == 1 && current_time() >= philo->last_meal)
+		// pthread_mutex_lock(&philo->last_meal_mu);
+		if (current_time() >= philo->last_meal)
 		{
-			pthread_mutex_lock(&philo->data->end_lock);
 			print_event("died", philo);
+			pthread_mutex_lock(&philo->data->end_lock);
 			philo->data->end = 1;
 			pthread_mutex_unlock(&philo->data->end_lock);
-			break;
+			return (0);
 		}
+		// pthread_mutex_unlock(&philo->last_meal_mu);
 	}
 	return (0);
 }

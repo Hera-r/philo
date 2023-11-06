@@ -35,7 +35,7 @@ typedef struct s_philo
 	long int		time_to_die;
 	long int		last_meal;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	status_lock;
+	pthread_mutex_t last_meal_mu;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 }					t_philo;
