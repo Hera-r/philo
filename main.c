@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mle-bras <mle-bras@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/05 23:57:34 by mle-bras         ###   ########.fr       */
+/*   Updated: 2023/11/06 23:29:26 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void destroy_philo_resources(t_data *data)
-{
-	free(data->thread);
-	free(data->forks);
-	pthread_mutex_destroy(&data->secure);
-	pthread_mutex_destroy(&data->last_meal_lock);
-	pthread_mutex_destroy(&data->must_die);
-	pthread_mutex_destroy(&data->end_lock);
-	pthread_mutex_destroy(&data->must_eat);
-	pthread_mutex_destroy(&data->lock);
-	pthread_mutex_destroy(&data->write);
-	data = NULL;
-}
 
 void	*xroutine(void *arg)
 {
@@ -90,7 +76,6 @@ int	main(int argc, char *argv[])
 	{
 		pthread_create(&philo[i].thread, NULL, xroutine, &philo[i]);
 	}
-	// if (philo->data->meals_nb != 0)
 	pthread_create(&check_who_eat, NULL, everyone_ate, &philo[0]);
 	i = -1;
 	while (++i < data.nb_philo)
@@ -98,6 +83,5 @@ int	main(int argc, char *argv[])
 		pthread_join(philo[i].thread, NULL);
 	}
 	pthread_join(check_who_eat, NULL);
-	// destroy_philo_resources(&data);
 	return (0);
 }
