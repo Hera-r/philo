@@ -29,13 +29,12 @@ void destroy_philo_resources(t_data *data)
 void	*xroutine(void *arg)
 {
 	t_philo		*philo;
-	// pthread_t	check_who_die;
 
 	philo = (t_philo *)arg;
-	// pthread_create(&check_who_die, NULL, xmonitoring, philo);
-	while (philo->data->end == 0)
+	pthread_mutex_lock(&philo->data->end_lock);
+	while (!philo->data->end)
 	{
-		// ft_usleep(philo->time_eating *0.7);
+		pthread_mutex_unlock(&philo->data->end_lock);
 		if (take_forks(philo) == 1)
 			break;
 		if (xeating(philo) == 1)
@@ -44,7 +43,9 @@ void	*xroutine(void *arg)
 			break;
 		if (print_event("is thinking", philo) == 1)
 			break;
+		pthread_mutex_lock(&philo->data->end_lock);
 	}
+	pthread_mutex_unlock(&philo->data->end_lock);
 	return (0);
 }
 
@@ -96,8 +97,7 @@ int	main(int argc, char *argv[])
 	{
 		pthread_join(philo[i].thread, NULL);
 	}
-	if (philo->data->meals_nb != 0)
-		pthread_join(check_who_eat, NULL);
+	pthread_join(check_who_eat, NULL);
 	// destroy_philo_resources(&data);
 	return (0);
 }

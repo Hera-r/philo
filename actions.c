@@ -35,10 +35,10 @@ void	*everyone_ate(void *arg)
 		if (current_time() >= philo->last_meal)
 		{
 			print_event("died", philo);
+			pthread_mutex_unlock(&philo->last_meal_mu);
 			pthread_mutex_lock(&philo->data->end_lock);
 			philo->data->end = 1;
 			pthread_mutex_unlock(&philo->data->end_lock);
-			pthread_mutex_unlock(&philo->last_meal_mu);
 			return (0);
 		}
 		pthread_mutex_unlock(&philo->last_meal_mu);
