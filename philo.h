@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/06 23:29:57 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/06 23:34:24 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int			take_forks(t_philo *philo);
 int			init_mutex(t_data *data);
 int			sleeping(t_philo *philo);
 int			ft_usleep(long int time);
-int			check_liveness(t_philo *philo);
 int			xstrcmp(char *s1, char *s2);
 long int	current_time(void);
 
