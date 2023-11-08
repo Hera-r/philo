@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:01 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 17:51:47 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:54:23 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	everyone_ate(t_data *data, t_philo *philo)
 				pthread_mutex_lock(&data->end_lock);
 				data->end = 1;
 				pthread_mutex_unlock(&data->end_lock);
+				pthread_mutex_unlock(&data->last_meal_lock);
 				return ;
 			}
 			pthread_mutex_unlock(&data->last_meal_lock);
