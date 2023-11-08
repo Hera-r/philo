@@ -6,44 +6,38 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:01 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 13:52:18 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:51:47 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*everyone_ate(void *arg)
+void	everyone_ate(t_data *data, t_philo *philo)
 {
-	t_philo	*philo;
+	int	i;
 
-	philo = (t_philo *)arg;
-	while (philo->data->end == 0)
+	while (data->end == 0)
 	{
-		if (philo->data->meals_nb != 0)
+		if (data->meals_nb != 0)
 		{
-			pthread_mutex_lock(&philo->data->last_meal_lock);
-			if (philo->data->finished == philo->data->nb_philo)
+			pthread_mutex_lock(&data->last_meal_lock);
+			if (data->finished == data->nb_philo)
 			{
-				pthread_mutex_lock(&philo->data->end_lock);
-				philo->data->end = 1;
-				pthread_mutex_unlock(&philo->data->end_lock);
-				return (0);
+				pthread_mutex_lock(&data->end_lock);
+				data->end = 1;
+				pthread_mutex_unlock(&data->end_lock);
+				return ;
 			}
-			pthread_mutex_unlock(&philo->data->last_meal_lock);
+			pthread_mutex_unlock(&data->last_meal_lock);
 		}
-		pthread_mutex_lock(&philo->last_meal_mu);
-		if (current_time() >= philo->last_meal)
+		i = 0;
+		while (i < data->nb_philo)
 		{
-			print_event("died", philo);
-			pthread_mutex_unlock(&philo->last_meal_mu);
-			pthread_mutex_lock(&philo->data->end_lock);
-			philo->data->end = 1;
-			pthread_mutex_unlock(&philo->data->end_lock);
-			return (0);
+			check_last_meals(&philo[i]);
+			i++;
 		}
-		pthread_mutex_unlock(&philo->last_meal_mu);
+		ft_usleep(3);
 	}
-	return (0);
 }
 
 int	take_forks(t_philo *philo)
@@ -63,13 +57,6 @@ int	take_forks(t_philo *philo)
 		print_event("has taken a fork", philo);
 	}
 	return (0);
-}
-
-void	lock_status_last_meals(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->last_meal_mu);
-	philo->last_meal = current_time() + philo->time_to_die;
-	pthread_mutex_unlock(&philo->last_meal_mu);
 }
 
 int	xeating(t_philo *philo)

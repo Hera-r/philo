@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 13:15:05 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:30:31 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*xroutine(void *arg)
 	t_philo		*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2)
+		ft_usleep(philo->data->eat_time);
 	pthread_mutex_lock(&philo->data->end_lock);
 	while (!philo->data->end)
 	{
@@ -29,6 +31,8 @@ void	*xroutine(void *arg)
 			break ;
 		if (print_event("is thinking", philo) == 1)
 			break ;
+		if (philo->data->nb_philo % 2)
+			ft_usleep(philo->data->eat_time);
 		pthread_mutex_lock(&philo->data->end_lock);
 	}
 	pthread_mutex_unlock(&philo->data->end_lock);
@@ -62,7 +66,6 @@ int	main(int argc, char *argv[])
 	t_data		data;
 	t_philo		*philo;
 	int			i;
-	pthread_t	check_who_eat;
 
 	if (argc < 5 || argc > 6)
 	{
@@ -87,12 +90,11 @@ int	main(int argc, char *argv[])
 	{
 		pthread_create(&philo[i].thread, NULL, xroutine, &philo[i]);
 	}
-	pthread_create(&check_who_eat, NULL, everyone_ate, &philo[0]);
+	everyone_ate(&data, &philo[0]);
 	i = -1;
 	while (++i < data.nb_philo)
 	{
 		pthread_join(philo[i].thread, NULL);
 	}
-	pthread_join(check_who_eat, NULL);
 	return (0);
 }

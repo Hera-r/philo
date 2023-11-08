@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:48:53 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 13:53:59 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:53:02 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_philo	*init_xphilo(t_data *data)
 		philo[i].time_eating = data->eat_time;
 		philo[i].time_to_die = data->death_time;
 		philo[i].eat_cont = 0;
+		philo[i].last_meal = current_time() + data->death_time;
 		pthread_mutex_init(&philo[i].lock, NULL);
 		pthread_mutex_init(&philo[i].last_meal_mu, NULL);
 		philo[i].data = data;
@@ -60,8 +61,6 @@ t_philo	*init_xphilo(t_data *data)
 
 int	pre_init(t_data *data)
 {
-	if (pthread_mutex_init(&data->secure, NULL) != 0)
-		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->last_meal_lock, NULL) != 0)
 		return (printf("pthread_mutex_init"), 1);
 	if (pthread_mutex_init(&data->must_die, NULL) != 0)

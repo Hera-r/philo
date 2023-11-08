@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 13:54:56 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:55:01 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 # define PHILO_H
 # define SUCCESS 1
 # define FAIL 0
-# define INT_MIN -2147483648
-# define INT_MAX +2147483647
 
-#include <unistd.h>
-#include <stdio.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <pthread.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/time.h>
 
 typedef struct s_philo
 {
@@ -35,7 +33,8 @@ typedef struct s_philo
 	long int		time_to_die;
 	long int		last_meal;
 	pthread_mutex_t	lock;
-	pthread_mutex_t last_meal_mu;
+	pthread_mutex_t	last_meal_mu;
+	pthread_mutex_t	secure;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 }					t_philo;
@@ -59,12 +58,12 @@ typedef struct s_data
 	pthread_mutex_t	must_eat;
 	pthread_mutex_t	end_lock;
 	pthread_mutex_t	must_die;
-	pthread_mutex_t	secure;
-	pthread_mutex_t last_meal_lock;
-
+	pthread_mutex_t	last_meal_lock;
 }					t_data;
 
 void		*xroutine(void *arg);
+void		check_last_meals(t_philo *philo);
+void		lock_status_last_meals(t_philo *philo);
 int			xeating(t_philo *philo);
 int			print_event(char *str, t_philo *philo);
 int			xatoi(const char *nptr);
@@ -79,9 +78,7 @@ int			ft_usleep(long int time);
 int			xstrcmp(char *s1, char *s2);
 long int	current_time(void);
 
-void		*everyone_ate(void *philo);
+void		everyone_ate(t_data *data, t_philo *philo);
 
 t_philo		*init_xphilo(t_data *data);
-
-
 #endif
