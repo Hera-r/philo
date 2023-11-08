@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:01 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/06 23:29:13 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:52:18 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*everyone_ate(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)arg;	
+	philo = (t_philo *)arg;
 	while (philo->data->end == 0)
 	{
 		if (philo->data->meals_nb != 0)
@@ -49,7 +49,7 @@ void	*everyone_ate(void *arg)
 int	take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
-	{    
+	{
 		pthread_mutex_lock(philo->l_fork);
 		print_event("has taken a fork", philo);
 		pthread_mutex_lock(philo->r_fork);
@@ -65,12 +65,10 @@ int	take_forks(t_philo *philo)
 	return (0);
 }
 
-void lock_status_last_meals(t_philo *philo)
+void	lock_status_last_meals(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->last_meal_mu);
-
 	philo->last_meal = current_time() + philo->time_to_die;
-
 	pthread_mutex_unlock(&philo->last_meal_mu);
 }
 

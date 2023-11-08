@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:48:53 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/06 23:29:04 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:53:59 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	init_mutex(t_data *data)
 	i = 0;
 	pre_init(data);
 	data->forks = malloc(data->nb_philo * sizeof(pthread_mutex_t));
-	if(!data->forks)
+	if (!data->forks)
 		return (0);
 	while (i < data->nb_philo)
 	{

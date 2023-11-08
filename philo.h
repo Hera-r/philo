@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/06 23:34:24 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:54:56 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_data
 }					t_data;
 
 void		*xroutine(void *arg);
-void		*xmonitoring(void *arg);
 int			xeating(t_philo *philo);
 int			print_event(char *str, t_philo *philo);
 int			xatoi(const char *nptr);

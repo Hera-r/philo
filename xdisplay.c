@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:08 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/06 23:30:05 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 13:15:45 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	ft_usleep(long int time)
 
 	start = current_time();
 	while ((current_time() - start) < time)
-		usleep(time * 100);
-	return(0);
+		usleep(time / 10);
+	return (0);
 }
 
 int	print_event(char *str, t_philo *philo)
