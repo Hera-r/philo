@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:19 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 13:54:31 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:35:17 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	xatoi(const char *nptr)
 	sign = 1;
 	n = 0;
 	while (is_space(nptr[i]))
-	i++;
+		i++;
 	if (nptr[i] == '-' || nptr[i] == '+')
 	{
 		if (nptr[i] == '-')
@@ -46,7 +46,7 @@ int	xatoi(const char *nptr)
 	while (isdigit(nptr[i]))
 	{
 		n = n * 10 + (nptr[i] - '0');
-	i++;
+		i++;
 	}
 	return (n * sign);
 }

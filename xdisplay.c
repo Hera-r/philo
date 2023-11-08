@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:08 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 17:47:24 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:34:20 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	print_event(char *str, t_philo *philo)
 	}
 	pthread_mutex_lock(&philo->data->end_lock);
 	if (philo->data->end == 0)
-		printf("%04ld %03d %s\n", xtime, philo->id + 1, str);
+		printf("%ld %d %s\n", xtime, philo->id + 1, str);
 	pthread_mutex_unlock(&philo->data->end_lock);
 	pthread_mutex_unlock(&philo->data->write);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 17:30:31 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:34:40 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,36 +65,12 @@ int	main(int argc, char *argv[])
 {
 	t_data		data;
 	t_philo		*philo;
-	int			i;
 
-	if (argc < 5 || argc > 6)
-	{
-		printf("error 1\n");
+	if (parse_init_data(&data, argc, argv) == 1)
 		return (0);
-	}
-	if (xparsing(&data, argc, argv) == 1)
-	{
-		printf("Error argv\n");
-		return (0);
-	}
 	if (data.nb_philo == 1)
-		return (one_philo(&data));
-	if (init_mutex(&data) == 1)
-		return (0);
+		return (one_philo(&data), destroy_mu_data(&data), 0);
 	philo = init_xphilo(&data);
-	data.finished = 0;
-	data.end = 0;
-	i = -1;
-	data.start_time = current_time();
-	while (++i < data.nb_philo)
-	{
-		pthread_create(&philo[i].thread, NULL, xroutine, &philo[i]);
-	}
-	everyone_ate(&data, &philo[0]);
-	i = -1;
-	while (++i < data.nb_philo)
-	{
-		pthread_join(philo[i].thread, NULL);
-	}
+	xstart_pthread(&data, philo);
 	return (0);
 }

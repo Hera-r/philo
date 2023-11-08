@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 13:21:07 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 17:55:01 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:10:11 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ typedef struct s_data
 
 void		*xroutine(void *arg);
 void		check_last_meals(t_philo *philo);
+void		destroy_mu_data(t_data *data);
+void		free_philo(t_philo *philo);
 void		lock_status_last_meals(t_philo *philo);
+void		xstart_pthread(t_data *data, t_philo *philo);
 int			xeating(t_philo *philo);
 int			print_event(char *str, t_philo *philo);
 int			xatoi(const char *nptr);
@@ -71,6 +74,7 @@ int			isdigit(int c);
 int			all_digit(char *argv[]);
 int			xparsing(t_data *data, int argc, char *argv[]);
 int			init_argv(t_data *data, int argc, char *argv[]);
+int			parse_init_data(t_data *data, int argc, char *argv[]);
 int			take_forks(t_philo *philo);
 int			init_mutex(t_data *data);
 int			sleeping(t_philo *philo);
