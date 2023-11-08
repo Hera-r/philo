@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 23:19:20 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 23:34:40 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/09 00:01:50 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	main(int argc, char *argv[])
 	if (data.nb_philo == 1)
 		return (one_philo(&data), destroy_mu_data(&data), 0);
 	philo = init_xphilo(&data);
+	if (!philo)
+		return (destroy_mu_data(&data), 0);
 	xstart_pthread(&data, philo);
 	return (0);
 }

@@ -1,5 +1,5 @@
 CC= gcc-11
-CFLAGS=-Wall -Wextra -Werror -fsanitize=thread -g3
+CFLAGS=-Wall -Wextra -Werror -g3 #-fsanitize=thread -g3
 NAME=philo
 SRC_FILES=main.c libft_tmp.c parsing.c all_init.c xdisplay.c actions.c xstart.c
 OBJ_FILES=$(SRC_FILES:.c=.o)
