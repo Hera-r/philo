@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:48:53 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 22:03:34 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/09 13:29:36 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	init_argv(t_data *data, int argc, char *argv[])
 	data->death_time = (long int) xatoi(argv[2]);
 	data->eat_time = (long int) xatoi(argv[3]);
 	data->sleep_time = (long int) xatoi(argv[4]);
-	if (data->nb_philo < 0)
+	if (data->nb_philo <= 0)
 		return (1);
 	if (data->death_time < 0 || data->eat_time < 0 || \
 		data->sleep_time < 0 || data->meals_nb < 0)
@@ -84,7 +84,7 @@ int	init_mutex(t_data *data)
 	pre_init(data);
 	data->forks = malloc(data->nb_philo * sizeof(pthread_mutex_t));
 	if (!data->forks)
-		return (0);
+		return (1);
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
