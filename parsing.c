@@ -6,7 +6,7 @@
 /*   By: hrandria <hrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:49:24 by hrandria          #+#    #+#             */
-/*   Updated: 2023/11/08 22:48:02 by hrandria         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:07:10 by hrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	free_philo(t_philo *philo)
 	i = 0;
 	while (i < philo->data->nb_philo)
 	{
-		pthread_mutex_destroy(&philo->lock);
-		pthread_mutex_destroy(&philo->last_meal_mu);
+		pthread_mutex_destroy(&philo[i].lock);
+		pthread_mutex_destroy(&philo[i].last_meal_mu);
 		i++;
 	}
 	free(philo);
